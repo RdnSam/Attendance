@@ -4,7 +4,6 @@ import 'package:xpresensi_app/core/constants/endpoints.dart';
 
 class AuthService {
   static final _dio = DioConfig.getInstance();
-
     static Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       final res = await _dio.post(Endpoints.login, data: {

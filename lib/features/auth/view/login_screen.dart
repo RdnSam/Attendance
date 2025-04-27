@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   Center(
                     child: TextButton(
-                      onPressed: () => context.go(RouteNames.register),
+                      onPressed: () => context.push(RouteNames.register),
                       child: const Text(
                         "Belum punya akun? Daftar di sini",
                         style: TextStyle(

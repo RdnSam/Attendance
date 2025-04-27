@@ -16,7 +16,15 @@ class RegisterScreen extends StatelessWidget {
       return Stack(
         children:[
         Scaffold(
-        appBar: AppBar(title: const Text("Register")),
+      appBar: AppBar(
+  leading: IconButton(
+    icon: const Icon(Icons.arrow_back),
+    onPressed: () {
+      context.pop(); // Gunakan GoRouter pop untuk konsisten
+    },
+  ),
+  title: const Text("Register"),
+),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),

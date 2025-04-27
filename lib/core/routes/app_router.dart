@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:xpresensi_app/core/routes/main_shell_screen.dart';
 import 'package:xpresensi_app/features/attendance/view/attendance_screen.dart';
 import 'package:xpresensi_app/features/auth/view/otp_screen.dart';
 import 'package:xpresensi_app/features/auth/view/register_screen.dart';
@@ -33,38 +34,43 @@ final GoRouter appRouter = GoRouter(
       path: RouteNames.otp,
       builder: (context, state) => const OtpScreen(),
     ),
-    GoRoute(
-      path: RouteNames.dashboard,
-      builder: (context, state) => const DashboardScreen(),
+
+    /// HANYA ADA DI SINI 👇
+    ShellRoute(
+      builder: (context, state, child) {
+        return MainShellScreen(child: child);
+      },
+      routes: [
+        GoRoute(
+          path: RouteNames.dashboard,
+          builder: (context, state) => const DashboardScreen(),
+        ),
+        GoRoute(
+          path: RouteNames.attendance,
+          builder: (context, state) => const AbsenScreen(),
+        ),
+      ],
     ),
-    GoRoute(
-      path: RouteNames.attendance,
-      builder: (context, state) => const AbsenScreen(),
-    ),
-      
   ],
-redirect: (context, state) async {
-  final token = await _storage.read(key: 'token');
-  final isLogin = token != null;
+  redirect: (context, state) async {
+    final token = await _storage.read(key: 'token');
+    final isLogin = token != null;
 
-  final location = state.uri.toString();
+    final location = state.uri.toString();
 
-  if (!isLogin && ![
-    RouteNames.login,
-    RouteNames.register,
-    RouteNames.otp,
-    RouteNames.splash,
-    RouteNames.dashboard,
-    RouteNames.attendance
-  ].contains(location)) {
-    return RouteNames.login;
-  }
+    if (!isLogin && ![
+      RouteNames.login,
+      RouteNames.register,
+      RouteNames.otp,
+      RouteNames.splash,
+    ].contains(location)) {
+      return RouteNames.login;
+    }
 
-  if (isLogin && location == RouteNames.login) {
-    return RouteNames.dashboard;
-  }
+    if (isLogin && location == RouteNames.login) {
+      return RouteNames.dashboard;
+    }
 
-  return null;
-}
-
+    return null;
+  },
 );
